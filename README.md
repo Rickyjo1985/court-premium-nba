@@ -1,21 +1,27 @@
 # Court Premium NBA
 
-Projeto Next.js separado do painel de futebol.
+Projeto Next.js independente do painel de futebol.
 
 ## Deploy
-1. Cria um repositório GitHub novo (ex.: `court-premium-nba`) e carrega o conteúdo desta pasta para a raiz.
-2. Importa esse repositório na Vercel.
-3. Configura estas variáveis de ambiente:
+1. Importa este repositório na Vercel.
+2. Configura as variáveis de ambiente:
    - `BALLDONTLIE_API_KEY` — chave BALLDONTLIE
    - `LOGIN_USERNAME` — utilizador de login
    - `LOGIN_PASSWORD` — palavra-passe
    - `AUTH_SECRET` — segredo aleatório forte para JWT
-4. Faz redeploy.
+3. Faz um novo deployment depois de alterar variáveis ou código.
 
 Chave da API: https://www.balldontlie.io/
+Documentação: https://docs.balldontlie.io/
 
-## Notas
-- A API gratuita tem limite de 5 pedidos/minuto; os jogos são guardados em cache por 10 minutos.
-- A estimativa usa resultados recentes de jogos disponíveis. É experimental, não uma probabilidade calibrada.
-- O histórico é guardado apenas no browser/dispositivo.
-- Esta versão inicial guarda prognósticos mas ainda não confirma automaticamente acertos/falhas.
+## Funcionalidades
+- Jogos NBA e resultados da API BALLDONTLIE, com cache de 10 minutos e paginação até 300 jogos por atualização.
+- Prognósticos experimentais. Quando existem poucos jogos recentes, o cálculo combina os dados disponíveis com uma média de referência da liga, em vez de ocultar a previsão. A pontuação apresentada não é uma probabilidade calibrada.
+- Histórico de prognósticos guardado no `localStorage` do browser/dispositivo.
+- Liquidação automática como `ACERTO` ou `FALHA` (ou `ANULADO` quando aplicável) quando um resultado final está disponível. A página atualiza os dados a cada 10 minutos enquanto estiver aberta e também sincroniza ao abrir ou atualizar manualmente.
+
+## Limitações importantes
+- O histórico não está sincronizado entre browsers/dispositivos e não é guardado numa base de dados no servidor.
+- Como o histórico é local, a atualização automática só consegue liquidar prognósticos nesse browser quando o portal está aberto ou é aberto novamente; não executa em segundo plano com o browser fechado.
+- Os prognósticos são estimativas simples e experimentais, não garantem resultados e não devem ser interpretados como probabilidades reais.
+- A API gratuita tem limite de pedidos; os resultados são cacheados para reduzir chamadas.
