@@ -1,0 +1,3 @@
+import { jwtVerify } from "jose"; import { NextResponse } from "next/server";
+export async function middleware(req){const p=req.nextUrl.pathname;if(["/login","/api/login","/api/logout"].includes(p)||p.startsWith("/_next/"))return NextResponse.next();const token=req.cookies.get("auth_token")?.value;if(!token)return p.startsWith("/api/")?NextResponse.json({error:"Não autenticado."},{status:401}):NextResponse.redirect(new URL("/login",req.url));try{await jwtVerify(token,new TextEncoder().encode(process.env.AUTH_SECRET));return NextResponse.next()}catch{return NextResponse.redirect(new URL("/login",req.url))}}
+export const config={matcher:["/((?!_next/static|_next/image|favicon.ico).*)"]};
