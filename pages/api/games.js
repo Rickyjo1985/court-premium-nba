@@ -43,7 +43,7 @@ export default async function handler(req, res) {
 
     const data = { games, fetchedAt: new Date().toISOString(), ...(warning ? { warning } : {}) };
     cache = { at: Date.now(), data };
-    res.setHeader("Cache-Control", "s-maxage=600, stale-while-revalidate=600");
+    res.setHeader("Cache-Control", "s-maxage=600");
     return res.status(200).json(data);
   } catch {
     return res.status(500).json({ error: "Erro ao consultar jogos NBA." });
